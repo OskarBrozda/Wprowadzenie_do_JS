@@ -1,19 +1,29 @@
-//pobierz div-a
 const pojemnikNaWyniki = document.querySelector('.wyniki')
+const wartosciInputs = document.querySelectorAll('input[type="number"]');
 
+function obliczWyniki() {
+  let sum = 0;
+  let min = Infinity;
+  let max = -Infinity;
 
-//reagowanie na klikniecie
-const przeliczBtn = document.querySelector('#przelicz')
-przeliczBtn.addEventListener('click', ()=>
-{
-    const v1 = parseInt(document.querySelector('#val1').value)
-    const v2 = parseInt(document.querySelector('#val2').value)
-    const v3 = parseInt(document.querySelector('#val3').value)
-    const v4 = parseInt(document.querySelector('#val4').value)
+  wartosciInputs.forEach(input => {
+    const value = parseFloat(input.value);
+    if (!isNaN(value)) {
+      sum += value;
+      if (value < min) min = value;
+      if (value > max) max = value;
+    }
+  });
 
-    const sum = v1 + v2 + v3 + v4
-    const avg = sum/4
-    const min = Math.min(v1, v2, v3, v4)
-    const max = Math.max(v1, v2, v3, v4)
-    pojemnikNaWyniki.innerHTML='Suma = ' + sum + '<br>Średnia = ' + avg + '<br>Min = ' + min + '<br>Max = ' + max
-})
+  const avg = sum / wartosciInputs.length;
+
+  pojemnikNaWyniki.innerHTML = `
+    <p>Suma: ${sum}</p>
+    <p>Średnia: ${avg}</p>
+    <p>Min: ${min}</p>
+    <p>Max: ${max}</p>`
+}
+
+wartosciInputs.forEach(input => {
+  input.addEventListener('input', obliczWyniki);
+});
