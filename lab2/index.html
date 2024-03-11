@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="header">Slider</div>
     <div class="slider">
-        <div class="images"></div>
-        <div class="buttonsNr">
-            <!-- <button class="previous">Poprzedni</button>
-            <button class="next">Następny</button> -->
+        <div class="slides">
+            <img src="images/photo1.jpg" alt="">
+            <img src="images/photo2.jpg" alt="">
+            <img src="images/photo3.jpg" alt="">
+            <img src="images/photo4.jpg" alt="">
+            <img src="images/photo5.jpg" alt="">
         </div>
+        <button class="previous" onclick="previousSlide()">&#10094</button>
+        <button class="next" onclick="nextSlide()">&#10095</button>
+        <div class="dotsForSlideNr"></div>
     </div>
     <script type="text/javascript" src="main.js"></script>
 </body>
