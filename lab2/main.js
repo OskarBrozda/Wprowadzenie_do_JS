@@ -1,6 +1,7 @@
 const slides = document.querySelector('.slides')
 const dotsForSlideNr = document.querySelector('.dotsForSlideNr')
 const photoArray = document.querySelectorAll('.slides img')
+const stopBtn = document.querySelector('.stopBtn')
 
 // dodanie okrągłych buttonów
 for (let i = 0; i < photoArray.length; i++) {
@@ -18,6 +19,17 @@ let intervalId = null
 
 //inicjalizacja slidera
 document.addEventListener("DOMContentLoaded", initializeSlider)
+
+buttonArray.forEach((button, index) => {
+	button.addEventListener('click', () => {
+        pause()
+        showSlide(index)
+        slideIndex = index
+	})
+})
+
+
+stopBtn.addEventListener('click', pause)
 
 function initializeSlider(){
     photoArray[slideIndex].classList.add("active")
@@ -60,15 +72,36 @@ function pause(){
     clearInterval(intervalId)
 }
 
-function start(time = 5000){
+function start(time = 2000){
     pause()
     intervalId = setInterval(nextSlide, time)  
 }
 
-buttonArray.forEach((button, index) => {
-	button.addEventListener('click', () => {
-        showSlide(index)
+const lightbox = document.querySelector('.lightbox')
+photoArray.forEach(photo => {
+    photo.addEventListener('click', () => {
         pause()
-        slideIndex = index
-	});
-});
+        openLightbox(photo.src)
+    })
+})
+
+function openLightbox(imageSrc) {
+    lightbox.style.display = 'block'
+    lightbox.style.backgroundImage = `url(${imageSrc})`
+    lightbox.style.backgroundSize = 'cover'
+    lightbox.style.backgroundPosition = 'center'
+    
+    document.addEventListener('keydown', closeOnEscape)
+}
+
+function closeOnEscape(event) {
+    if (event.key === 'Escape') {
+        closeLightbox()
+        start()
+    }
+}
+
+function closeLightbox() {
+    lightbox.style.display = 'none'
+    document.removeEventListener('keydown', closeOnEscape)
+}

@@ -10,16 +10,28 @@
     <div class="header">Slider</div>
     <div class="slider">
         <div class="slides">
-            <img src="images/photo1.jpg" alt="">
-            <img src="images/photo2.jpg" alt="">
-            <img src="images/photo3.jpg" alt="">
-            <img src="images/photo4.jpg" alt="">
-            <img src="images/photo5.jpg" alt="">
+            <div id="slide1">
+                <img src="images/photo1.jpg" alt="">
+            </div>
+            <div id="slide2">
+                <img src="images/photo2.jpg" alt="">
+            </div>
+            <div id="slide3">
+                <img src="images/photo3.jpg" alt="">
+            </div>
+            <div id="slide4">
+                <img src="images/photo4.jpg" alt="">
+            </div>
+            <div id="slide5">
+                <img src="images/photo5.jpg" alt="">
+            </div> 
         </div>
         <button class="previous" onclick="previousSlide()">&#10094</button>
         <button class="next" onclick="nextSlide()">&#10095</button>
         <div class="dotsForSlideNr"></div>
+        <button class="stopBtn">STOP</button>
     </div>
+    <div class="lightbox"></div>
     <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
