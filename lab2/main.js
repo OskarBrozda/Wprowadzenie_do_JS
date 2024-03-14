@@ -24,7 +24,6 @@ buttonArray.forEach((button, index) => {
 	button.addEventListener('click', () => {
         pause()
         showSlide(index)
-        slideIndex = index
 	})
 })
 
@@ -38,6 +37,7 @@ function initializeSlider(){
 }
 
 function showSlide(index){
+    slideIndex = index
     if(index>=photoArray.length){
         slideIndex=0
     }
