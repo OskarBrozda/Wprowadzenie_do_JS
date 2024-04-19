@@ -1,5 +1,67 @@
-audio 
-{
-    display: block;
-    margin: 10px;
+button {
+  text-transform: uppercase;
+  background-color: #418b43;
+  border: none;
+  font-family: serif;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 12;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:active {
+  background-color: #741045;
+}
+
+.startStop {
+  margin-right: 150px;
+}
+
+.metronom {
+  margin: 10px;
+  font-family: serif;
+  font-size: 20px;
+}
+
+.metronom input {
+  width: 40px;
+  border: none;
+  border-bottom: 1px solid black;
+  margin: 5px;
+  text-align: left;
+}
+
+.loop {
+  display: inline-block;
+  margin: 10px;
+  font-family: serif;
+  font-size: 20px;
+}
+
+.recordBtn {
+  background-color: #107461;
+  font-size: 12px;
+  padding: 8px 16px;
+}
+
+.tracks .track input {
+  width: 10px;
+  border: none;
+  border-bottom: 1px solid black;
+  margin: 5px;
+  text-align: center;
+}
+
+.tracks .track {
+  font-size: 0;
+  display: inline-block;
+  margin: 5px;
+  text-align: center;
+}
+
+input {
+  text-transform: lowercase;
 }

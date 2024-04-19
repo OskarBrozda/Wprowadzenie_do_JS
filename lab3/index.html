@@ -1,22 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <audio src="./sounds/clap.wav" controls id="s1"></audio>
-    <audio src="./sounds/kick.wav" controls id="s2"></audio>
-    <audio src="./sounds/hihat.wav" controls id="s3"></audio>
-    <audio src="./sounds/boom.wav" controls id="s4"></audio>
-    <audio src="./sounds/openhat.wav" controls id="s5"></audio>
-    <audio src="./sounds/ride.wav" controls id="s6"></audio>
-    <audio src="./sounds/openhat.wav" controls id="s7"></audio>
-    <audio src="./sounds/ride.wav" controls id="s8"></audio>
-    <audio src="./sounds/tink.wav" controls id="s9"></audio>
-    <audio src="./sounds/tom.wav" controls id="s10"></audio>
-    <script type="text/javascript" src="main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Drumkit</title>
+  </head>
+  <body>
+    <button class="startStop">start</button>
+    <button class="addTrack">Add track</button>
+    <button class="removeTracks">Remove tracks</button>
+    <div class="metronom">
+      <span>Metronom</span>
+      <input type="number" class="howOftenPerMinute" value="10" />
+      <input type="checkbox" class="metronomCheck" />
+    </div>
+    <div class="loop">
+      Loop
+      <input type="checkbox" class="loopCheck" />
+    </div>
+    <div class="tracks">
+      <div class="track1">
+        <button class="recordBtn">Record track</button>
+        <div class="track">
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+        </div>
+        <input type="checkbox" class="track1Check" />
+      </div>
+      <div class="track2">
+        <button class="recordBtn">Record track</button>
+        <div class="track">
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+          <input maxlength="1" />
+        </div>
+        <input type="checkbox" class="track2Check" />
+      </div>
+    </div>
+  </body>
+  <script src="main.js"></script>
 </html>
