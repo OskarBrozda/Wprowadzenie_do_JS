@@ -20,7 +20,7 @@
 .title {
   grid-column-start: 2;
   padding: 20px;
-  letter-spacing: 5px;
+  letter-spacing: 15px;
   color: #111863;
 }
 
@@ -35,6 +35,7 @@
   font-size: 12px;
   font-weight: bold;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .addNote:active {
@@ -63,38 +64,66 @@
   display: grid;
   grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
   grid-template-columns: 20% 20% 20% 20%;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
   padding: 20px;
 }
 
 .note {
+  position: relative;
   display: grid;
-  grid-template-rows: 20% 10% 10% 25% 25% 10%;
+  grid-template-rows: 20% 70% 10%;
   background-color: #fbe9a6;
   height: 300px;
   width: 250px;
   border-radius: 50px;
 }
 
+.note::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 270px;
+  height: 320px;
+  border-radius: 60px;
+  background-color: #fbe9a6;
+  z-index: -1;
+}
+
+.notesPinned .note::after {
+  background-color: red;
+}
+.notesDone .note::after {
+  background-color: green;
+}
+
 .note .noteTitle,
 .note .noteContent {
+  overflow: hidden;
   background-color: transparent;
   border: none;
   text-align: center;
-  line-height: 60px;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .note .noteContent {
   font-size: 15px;
   text-wrap: wrap;
+  padding: 10px 0;
 }
 
 .noteReminderContainer,
 .noteTagsContainer {
   justify-self: center;
   text-align: center;
+}
+
+.noteTagsContainer {
+  margin-bottom: 10px;
 }
 
 .noteReminderContainer p {
@@ -112,24 +141,55 @@
   border-radius: 10px;
 }
 
+.noteList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px 0 0 20px;
+  overflow: hidden;
+}
+
 li {
   list-style-type: none;
+}
+
+li input {
+  margin-right: 6px;
 }
 
 .noteEdit {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 15px;
-  grid-row-start: 6;
+  grid-row-start: 3;
   width: 35%;
   height: 80%;
   margin: 0 auto;
   background-color: transparent;
   border: 2px solid black;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .noteEdit:active {
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.noteDone {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  height: 30px;
+  width: 30px;
+  border: 2px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 28px;
+}
+
+.noteDone:active {
   background-color: black;
   color: white;
   border: none;
@@ -215,6 +275,7 @@ li {
   margin: auto;
   padding: 5px 10px;
   width: 40%;
+  cursor: pointer;
 }
 
 .close {

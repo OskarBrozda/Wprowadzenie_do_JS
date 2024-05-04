@@ -21,7 +21,7 @@ createNote(
   false,
   null,
   "ogorek, pomidor",
-  "jeden, dwa, trzy"
+  "jeden, dwa, trzy, cztery, piec, szesc, siedem, osiem, dziewiec, dziesiec"
 );
 
 function searchNotes() {
@@ -31,10 +31,13 @@ function searchNotes() {
     const title = note.querySelector(".noteTitle").innerHTML.toLowerCase();
     const content = note.querySelector(".noteContent").innerHTML.toLowerCase();
     const tags = note.querySelector(".noteTagsContainer");
+    const listContainer = note.querySelector(".noteList");
     if (
       title.includes(searchValue) ||
       content.includes(searchValue) ||
-      (tags && tags.innerHTML.toLowerCase().includes(searchValue))
+      (tags && tags.innerHTML.toLowerCase().includes(searchValue)) ||
+      (listContainer &&
+        listContainer.innerHTML.toLowerCase().includes(searchValue))
     ) {
       note.style.display = "grid";
     } else {
@@ -54,6 +57,9 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
   noteTitle.innerHTML = title;
   note.appendChild(noteTitle);
 
+  const noteBody = document.createElement("div");
+  noteBody.className = "noteBody";
+
   if (tags) {
     const tagsContainer = document.createElement("div");
     tagsContainer.className = "noteTagsContainer";
@@ -66,7 +72,7 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
     tagsArray.forEach((tag) => {
       tagsContainer.appendChild(tag);
     });
-    note.appendChild(tagsContainer);
+    noteBody.appendChild(tagsContainer);
   }
 
   if (reminderDate) {
@@ -78,13 +84,13 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
     reminder.innerHTML = reminderDate.toLocaleString();
     console.log(reminderDate);
     reminderDateContainer.appendChild(reminder);
-    note.appendChild(reminderDateContainer);
+    noteBody.appendChild(reminderDateContainer);
   }
 
   const noteContent = document.createElement("p");
   noteContent.className = "noteContent";
   noteContent.innerHTML = content;
-  note.appendChild(noteContent);
+  noteBody.appendChild(noteContent);
 
   if (isList && isList !== "") {
     const list = isList.split(",").map((word) => {
@@ -96,11 +102,26 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
     const listContainer = document.createElement("p");
     listContainer.className = "noteList";
     list.forEach((item) => {
+      const checkItem = document.createElement("input");
+      checkItem.type = "checkbox";
+      checkItem.addEventListener("change", function () {
+        if (this.checked) {
+          listContainer.appendChild(this.parentElement);
+        } else {
+          listContainer.insertBefore(
+            this.parentElement,
+            listContainer.firstChild
+          );
+        }
+      });
+      item.insertBefore(checkItem, item.firstChild);
       listContainer.appendChild(item);
     });
 
-    note.appendChild(listContainer);
+    noteBody.appendChild(listContainer);
   }
+
+  note.appendChild(noteBody);
 
   const editButton = document.createElement("button");
   editButton.classList.add("noteEdit");
@@ -108,6 +129,31 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
   editButton.innerHTML = "edytuj";
   editButton.addEventListener("click", editNote(note.id));
   note.appendChild(editButton);
+
+  const doneButton = document.createElement("checkbox");
+  doneButton.classList.add("noteDone");
+  doneButton.innerHTML = "&#10004";
+  doneButton.style.backgroundColor = color;
+  doneButton.addEventListener("click", function () {
+    if (!doneButton.checked) {
+      doneButton.style.backgroundColor = "black";
+      doneButton.style.color = "white";
+      doneButton.innerHTML = "&#10006";
+      doneButton.checked = true;
+      notesDone.appendChild(note);
+    } else {
+      doneButton.style.backgroundColor = color;
+      doneButton.style.color = "black";
+      doneButton.innerHTML = "&#10004";
+      doneButton.checked = false;
+      if (pinned) {
+        notesPinned.appendChild(note);
+      } else {
+        notesToDo.appendChild(note);
+      }
+    }
+  });
+  note.appendChild(doneButton);
 
   if (pinned) {
     notesPinned.appendChild(note);
@@ -131,6 +177,7 @@ function showNoteForm(title, content, color, pinned, reminder, tags, list) {
 }
 
 function closeNoteForm() {
+  clearValues();
   document.querySelector(".notesForm").style.display = "none";
 }
 
