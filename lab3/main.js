@@ -19,7 +19,6 @@ const howOftenPerMinute = document.querySelector(".howOftenPerMinute");
 const metronomCheck = document.querySelector(".metronomCheck");
 const loopCheck = document.querySelector(".loopCheck");
 const tracks = document.querySelector(".tracks");
-
 let isPlaying = false;
 let trackCounter = 3;
 let metronomInterval;
@@ -78,53 +77,40 @@ startStop.addEventListener("click", () => {
   if (!isPlaying) {
     isPlaying = true;
     startStop.textContent = "Stop";
-    inputNumber = 0;
     const checkedTracks = tracks.querySelectorAll(
       'input[type="checkbox"]:checked'
     );
-    checkedTracks.forEach((track) => {
-      const x = track.parentElement
-        .querySelector(".track")
-        .querySelectorAll("input");
-      if (!loopCheck.checked) {
-        x.forEach((e) => {
+    const totalTracks = checkedTracks.length;
+    let trackIndex = 0;
+
+    function playNextTrack() {
+      if (trackIndex < totalTracks) {
+        const track = checkedTracks[trackIndex++];
+        const x = track.parentElement.querySelectorAll(".track input");
+        x.forEach((e, index) => {
           durationTimeout.push(
             setTimeout(() => {
               const audio = new Audio(keySounds[e.value]);
               audio.play();
-            }, 350 * inputNumber++)
+            }, 350 * index)
           );
         });
+        setTimeout(playNextTrack, 350 * 8); // Waiting prev track finished then next track
       } else {
-        //tutaj wpisac zeby powtarzalo az loop jest zaznaczony, ale uwaga, zeby nie zaczelo odtwarzac od razu wszystkiego wiec kazde kolejne odtworzenie opoznic!!!
-        x.forEach((e) => {
-          durationTimeout.push(
-            setTimeout(() => {
-              const audio = new Audio(keySounds[e.value]);
-              audio.play();
-            }, 350 * inputNumber)
-          );
-        });
+        if (!loopCheck.checked) {
+          clearInterval(metronomInterval);
+          durationTimeout.forEach((timeout) => {
+            clearTimeout(timeout);
+          });
+          isPlaying = false;
+          startStop.textContent = "Start";
+        } else {
+          // If loop is checked, play all tracks again
+          trackIndex = 0;
+          playNextTrack();
+        }
       }
-    });
-    if (!loopCheck.checked) {
-      setTimeout(() => {
-        clearInterval(metronomInterval);
-        durationTimeout.forEach((timeout) => {
-          clearTimeout(timeout);
-        });
-        isPlaying = false;
-        startStop.textContent = "Start";
-      }, 350 * 8);
     }
-  } else {
-    clearInterval(metronomInterval);
-    metronomCheck.checked = false;
-    durationTimeout.forEach((timeout) => {
-      clearTimeout(timeout);
-    });
-    isPlaying = false;
-    startStop.textContent = "Start";
   }
 });
 

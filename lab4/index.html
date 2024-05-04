@@ -7,14 +7,60 @@
     <title>NotePocket</title>
   </head>
   <body>
-    <div>Notatki</div>
-    <button class="addNote">Dodaj notatkę</button>
+    <div class="header">
+      <div class="title">Notatki</div>
+      <button class="addNote" onclick="showNoteForm()">Dodaj notatkę</button>
+    </div>
     <input type="text" class="search" placeholder="wyszukaj notatkę" />
     <div class="notes">
       <div class="notesPinned"></div>
       <div class="notesToDo"></div>
       <div class="notesDone"></div>
     </div>
+
+    <div class="notesForm">
+      <div class="notesForm-content">
+        <span class="close" onclick="closeNoteForm()">&times;</span>
+        <form class="formLabels">
+          <label>Tytuł notatki</label><br />
+          <input type="text" id="form_noteTitle" required /><br />
+
+          <label>Treść notatki</label><br />
+          <textarea type="text" id="form_noteContent" required></textarea><br />
+
+          <label>Lista</label><br />
+          <input
+            type="text"
+            id="form_noteList"
+            placeholder="opcjonalne, po przecinku"
+          /><br />
+
+          <div class="containerColPin">
+            <div>
+              <label>Kolor notatki</label><br />
+              <input type="color" id="form_noteColor" value="#fde456" /><br />
+            </div>
+            <div>
+              <label>Przypnij</label><br />
+              <input type="checkbox" id="form_notePinned" /><br />
+            </div>
+          </div>
+
+          <label>Czas przypomnienia</label><br />
+          <input type="datetime-local" id="form_noteReminder" /><br />
+
+          <label>Tagi</label><br />
+          <input
+            type="text"
+            id="form_noteTags"
+            placeholder="opcjonalne, po przecinku"
+          /><br />
+          <br />
+          <button type="submit">Dodaj</button>
+        </form>
+      </div>
+    </div>
+
     <script src="main.js"></script>
   </body>
 </html>
