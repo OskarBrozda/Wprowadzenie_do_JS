@@ -1,0 +1,46 @@
+.container {
+  width: 700px;
+  height: 500px;
+  position: absolute;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gameArea {
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+.ball,
+.teleport,
+.whole {
+  width: 20px;
+  height: 20px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.teleport {
+  background-color: navy;
+}
+
+.whole {
+  width: 30px;
+  height: 30px;
+  background-color: black;
+}
+
+.gameOver {
+  display: none;
+}
+
+.score {
+  margin-left: 50px;
+  font-weight: bold;
+  font-family: arial;
+  text-transform: uppercase;
+}
