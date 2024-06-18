@@ -1,28 +1,51 @@
-const addNote = document.querySelector(".addNote");
+const localStorageKey = "notes";
+
 const search = document.querySelector(".search");
 const notesPinned = document.querySelector(".notesPinned");
 const notesToDo = document.querySelector(".notesToDo");
 const notesDone = document.querySelector(".notesDone");
-let id = 1;
 
-createNote("Title", "Content", "lightblue", true, "26.03.2024 15:30", null);
-createNote(
-  "Title2",
-  "Content2",
-  "pink",
-  false,
-  "20.02.2024 16:30",
-  "do, it, now"
-);
-createNote(
-  "Title2",
-  "Content2",
-  "lightgreen",
-  false,
-  null,
-  "ogorek, pomidor",
-  "jeden, dwa, trzy, cztery, piec, szesc, siedem, osiem, dziewiec, dziesiec"
-);
+const addToLocalStorage = (arr) => {
+  const stringifiedArray = JSON.stringify(arr);
+
+  localStorage.setItem(localStorageKey, stringifiedArray);
+};
+
+const getNotesFromStorage = () => {
+  return JSON.parse(localStorage.getItem(localStorageKey)) || [];
+};
+
+// addNote("Title", "Content", "lightblue", true, "26.03.2024 15:30", null);
+// addNote("Title2", "Content2", "pink", false, "20.02.2024 16:30", "do, it, now");
+// addNote(
+//   "Title2",
+//   "Content2",
+//   "lightgreen",
+//   false,
+//   null,
+//   "ogorek, pomidor",
+//   "jeden, dwa, trzy, cztery, piec, szesc, siedem, osiem, dziewiec, dziesiec"
+// );
+
+const displayNotes = () => {
+  clearNotes();
+  const notesLocalStorage = getNotesFromStorage();
+
+  notesLocalStorage.forEach((note) => {
+    displayNote(
+      note.id,
+      note.title,
+      note.content,
+      note.color,
+      note.isPinned,
+      note.reminder,
+      note.tags,
+      note.isList
+    );
+  });
+};
+
+displayNotes();
 
 function searchNotes() {
   const notes = document.querySelectorAll(".note");
@@ -46,10 +69,37 @@ function searchNotes() {
   });
 }
 
-function createNote(title, content, color, pinned, reminderDate, tags, isList) {
+function addNote(title, content, color, pinned, reminderDate, tags, isList) {
+  const notesLocalStorage = getNotesFromStorage();
+  const newNote = {
+    id: Date.now(),
+    title: title,
+    content: content,
+    color: color,
+    isPinned: pinned,
+    reminder: reminderDate,
+    tags: tags.length > 0 ? tags?.split(",") : [],
+    isList: isList.length > 0 ? isList?.split(",") : [],
+  };
+  notesLocalStorage.push(newNote);
+  addToLocalStorage(notesLocalStorage);
+
+  displayNotes();
+}
+
+function displayNote(
+  id,
+  title,
+  content,
+  color,
+  pinned,
+  reminderDate,
+  tags,
+  isList
+) {
   const note = document.createElement("div");
   note.className = "note";
-  note.id = id++;
+  note.id = id;
   note.style.backgroundColor = color;
 
   const noteTitle = document.createElement("h2");
@@ -63,7 +113,8 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
   if (tags) {
     const tagsContainer = document.createElement("div");
     tagsContainer.className = "noteTagsContainer";
-    const tagsArray = tags.split(",").map((tag) => {
+    // debugger;
+    const tagsArray = tags.map((tag) => {
       const tagElement = document.createElement("span");
       tagElement.className = "noteTag";
       tagElement.innerHTML = "#" + tag.trim();
@@ -92,8 +143,8 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
   noteContent.innerHTML = content;
   noteBody.appendChild(noteContent);
 
-  if (isList && isList !== "") {
-    const list = isList.split(",").map((word) => {
+  if (isList?.length) {
+    const list = isList.map((word) => {
       const listItem = document.createElement("li");
       listItem.innerHTML = word.trim();
       return listItem;
@@ -127,7 +178,7 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
   editButton.classList.add("noteEdit");
   editButton.id = "noteEdit_" + note.id;
   editButton.innerHTML = "edytuj";
-  editButton.addEventListener("click", editNote(note.id));
+  // editButton.addEventListener("click", editNote(note.id));
   note.appendChild(editButton);
 
   const doneButton = document.createElement("checkbox");
@@ -163,8 +214,8 @@ function createNote(title, content, color, pinned, reminderDate, tags, isList) {
 }
 
 function editNote(id) {
-  const editButton = document.querySelector(".noteEdit");
-  const temp = document.getElementById("id");
+  const editButton = document.getElementById(id).querySelector(".noteEdit");
+  const temp = document.getElementById(id);
 
   // editButton.addEventListener("click", function () {
   //   showNoteForm();
@@ -203,9 +254,15 @@ function displayForm() {
   var tags = document.getElementById("form_noteTags").value;
   var list = document.getElementById("form_noteList").value;
 
-  createNote(title, content, color, pinned, reminderDate, tags, list);
+  addNote(title, content, color, pinned, reminderDate, tags, list);
   clearValues();
   closeNoteForm();
+}
+
+function clearNotes() {
+  notesPinned.innerHTML = "";
+  notesToDo.innerHTML = "";
+  notesDone.innerHTML = "";
 }
 
 document

@@ -69,6 +69,12 @@
   padding: 20px;
 }
 
+.notesPinned:empty,
+.notesToDo:empty,
+.notesDone:empty {
+  display: none;
+}
+
 .note {
   position: relative;
   display: grid;
