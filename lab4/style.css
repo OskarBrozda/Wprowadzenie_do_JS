@@ -271,6 +271,12 @@ li input {
   gap: 3px;
 }
 
+.formLabels .buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .formLabels button {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
@@ -282,6 +288,10 @@ li input {
   padding: 5px 10px;
   width: 40%;
   cursor: pointer;
+}
+
+.formLabels .removeButton {
+  display: none;
 }
 
 .close {
