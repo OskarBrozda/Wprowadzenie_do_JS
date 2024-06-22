@@ -22,7 +22,8 @@ const tracks = document.querySelector(".tracks");
 let isPlaying = false;
 let trackCounter = 3;
 let metronomInterval;
-let durationTimeout = [];
+let isMetronomOn = false;
+let durationTimeouts = [];
 
 //add tracks
 addTrack.addEventListener("click", () => {
@@ -66,53 +67,61 @@ removeTracks.addEventListener("click", () => {
 //metronom check
 metronomCheck.addEventListener("click", () => {
   if (metronomCheck.checked) {
+    isMetronomOn = true;
     metronomPlay();
   } else {
+    isMetronomOn = false;
     clearInterval(metronomInterval);
   }
 });
 
-//btn start/stop
+//start/stop button
 startStop.addEventListener("click", () => {
   if (!isPlaying) {
     isPlaying = true;
     startStop.textContent = "Stop";
-    const checkedTracks = tracks.querySelectorAll(
-      'input[type="checkbox"]:checked'
-    );
-    const totalTracks = checkedTracks.length;
-    let trackIndex = 0;
-
-    function playNextTrack() {
-      if (trackIndex < totalTracks) {
-        const track = checkedTracks[trackIndex++];
-        const x = track.parentElement.querySelectorAll(".track input");
-        x.forEach((e, index) => {
-          durationTimeout.push(
-            setTimeout(() => {
-              const audio = new Audio(keySounds[e.value]);
-              audio.play();
-            }, 350 * index)
-          );
-        });
-        setTimeout(playNextTrack, 350 * 8); // Waiting prev track finished then next track
-      } else {
-        if (!loopCheck.checked) {
-          clearInterval(metronomInterval);
-          durationTimeout.forEach((timeout) => {
-            clearTimeout(timeout);
-          });
-          isPlaying = false;
-          startStop.textContent = "Start";
-        } else {
-          // If loop is checked, play all tracks again
-          trackIndex = 0;
-          playNextTrack();
-        }
-      }
-    }
+    playTracks();
+  } else {
+    isPlaying = false;
+    startStop.textContent = "Start";
+    stopTracks();
   }
 });
+
+function playTracks() {
+  if (!isPlaying) return; // Ensure we stop immediately when isPlaying is false
+
+  const checkedTracks = tracks.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+
+  checkedTracks.forEach((track) => {
+    const x = track.parentElement.querySelectorAll(".track input");
+    x.forEach((e, index) => {
+      durationTimeouts.push(
+        setTimeout(() => {
+          if (!isPlaying) return; // Stop playing if isPlaying is false
+          const audio = new Audio(keySounds[e.value]);
+          audio.play();
+        }, 350 * index)
+      );
+    });
+  });
+
+  if (loopCheck.checked && isPlaying) {
+    setTimeout(playTracks, 350 * 8); // Repeat all tracks every 8 steps
+  } else if (!loopCheck.checked) {
+    setTimeout(stopTracks, 350 * 8); // Stop after one cycle
+  }
+}
+
+function stopTracks() {
+  durationTimeouts.forEach((timeout) => clearTimeout(timeout));
+  durationTimeouts = [];
+  clearInterval(metronomInterval);
+  isPlaying = false;
+  startStop.textContent = "Start";
+}
 
 //metronom play
 function metronomPlay() {

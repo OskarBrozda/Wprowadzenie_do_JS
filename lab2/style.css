@@ -1,130 +1,132 @@
-body{
-    margin: 20px 0;
-    box-sizing: border-box;
-    background-color: grey;
+body {
+  margin: 20px 0;
+  box-sizing: border-box;
+  background-color: grey;
 }
 
 .header {
-    font-size: 50px;
-    font-family: Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    margin: 20px 0 30px;
+  font-size: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin: 20px 0 30px;
 }
 
-.slider{
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    height: 500px;
-    overflow: hidden;
+.slider {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 500px;
+  overflow: hidden;
 }
 
-.slider:hover{
-    opacity: 90%;
+.slider:hover {
+  opacity: 90%;
 }
 
 .slides img {
-    display: none;
-    width: 100%;
-    height: 500px;
+  display: none;
+  width: 100%;
+  height: 500px;
 }
 
-.active{
-    display: block !important;
-    animation: changeWidth 5s forwards linear;
+.active {
+  display: block !important;
+  animation: changeWidth 5s forwards linear;
 }
 
-.previous, .next, .dotsForSlideNr{
-    position: absolute;
+.previous,
+.next,
+.dotsForSlideNr {
+  position: absolute;
 }
 
-.previous, .next{
-    font-size: 2rem;
-    background-color: rgba(0, 0, 0, 50%);
-    color: white;
-    border: none;
-    cursor: pointer;
-    top: 50%;
-    transform: translateY(-50%);
+.previous,
+.next {
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 50%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.next{
-    right: 0;
+.next {
+  right: 0;
 }
 
-.dotsForSlideNr{
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+.dotsForSlideNr {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.dotsForSlideNr>button{
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    border-radius: 80%;
-    border: none;
-    margin: 10px;
-    background-color: rgba(0, 0, 0, 50%);
+.dotsForSlideNr > button {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 80%;
+  border: none;
+  margin: 10px;
+  background-color: rgba(0, 0, 0, 50%);
 }
 
-.changeColorOfButton{
-    background-color: white !important;
-    animation: fadeBtn 1.5s;
+.changeColorOfButton {
+  background-color: white !important;
+  animation: fadeBtn 1.5s;
 }
 
-.stopBtn{
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    cursor: pointer;
-    width: 50px;
-    height: 20px;
-    border-radius: 20%;
-    border: 1px solid white;
-    margin: 10px;
-    color:white;
-    background-color: rgba(0, 0, 0, 50%);
+.stopBtn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  border-radius: 20%;
+  border: 1px solid white;
+  margin: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 50%);
 }
 
-.stopBtn:active{
-    background-color: rgba(40, 34, 34, 0.5);;
+.stopBtn:active {
+  background-color: rgba(40, 34, 34, 0.5);
 }
 
-
-.lightbox{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-.lightbox div{
-   display: block;
-   width: 100%;
-   height: 100%;
+.lightbox div {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes fadeBtn {
-    0% {
-      opacity: 0;
-    }
-    100%{
-      opacity: 100%;
-    }
+  0% {
+    opacity: 0;
   }
+  100% {
+    opacity: 100%;
+  }
+}
 
-  @keyframes changeWidth {
-    0% {
-      transform: scale(1.0);
-    }
-    100%{
-      transform: scale(1.2);
-    }
+@keyframes changeWidth {
+  0% {
+    transform: scale(1);
   }
+  100% {
+    transform: scale(1.2);
+  }
+}
