@@ -12,20 +12,21 @@
   width: 500px;
   height: 500px;
   border: 1px solid black;
+  position: relative;
 }
 
 .ball,
 .teleport,
-.whole {
+.whole,
+.food {
   width: 20px;
   height: 20px;
-  background-color: green;
   border-radius: 50%;
   position: absolute;
 }
 
-.teleport {
-  background-color: navy;
+.ball {
+  background-color: green;
 }
 
 .whole {
@@ -34,11 +35,28 @@
   background-color: black;
 }
 
-.gameOver {
-  display: none;
+.teleport {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
 }
 
-.score {
+.food {
+  background-color: pink;
+  border: 2px solid yellow;
+}
+
+.gameOver {
+  display: none;
+  text-transform: uppercase;
+  font-size: 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: red;
+  font-weight: bold;
+}
+
+.text,
+.start {
   margin-left: 50px;
   font-weight: bold;
   font-family: arial;
