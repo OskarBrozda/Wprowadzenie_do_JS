@@ -12,7 +12,7 @@ let ballSpeedY = 0;
 let ballX = 0;
 let ballY = 0;
 
-let isGameOver = false;
+let colissionCounter = 0;
 let score = 0;
 
 let wholeSpeedX = 1;
@@ -36,16 +36,16 @@ let foodX = Math.random() * (gameArea.offsetWidth - food.offsetWidth);
 let foodY = Math.random() * (gameArea.offsetHeight - food.offsetHeight);
 food.style.transform = `translate(${foodX}px, ${foodY}px)`;
 
-if (!isGameOver) {
-  window.addEventListener("deviceorientation", handleOrientation);
-}
+window.addEventListener("deviceorientation", handleOrientation);
 
 function handleOrientation(event) {
-  const beta = event.beta;
-  const gamma = event.gamma;
+  if (colissionCounter === 1) {
+    const beta = event.beta;
+    const gamma = event.gamma;
 
-  ballSpeedX = gamma / speedRatio;
-  ballSpeedY = (beta - 90) / speedRatio;
+    ballSpeedX = gamma / speedRatio;
+    ballSpeedY = (beta - 90) / speedRatio;
+  }
 }
 
 function animateBall() {
@@ -96,8 +96,10 @@ function checkCollision() {
     ballRect.bottom >= wholeRect.top &&
     ballRect.top <= wholeRect.bottom
   ) {
-    console.log("collision with whole");
-    gameOver();
+    if (colissionCounter === 1) {
+      gameOver();
+    }
+    colissionCounter++;
   }
 
   if (
@@ -157,9 +159,7 @@ function gameOver() {
   ballSpeedY = 0;
   wholeSpeedX = 0;
   wholeSpeedY = 0;
-  isGameOver = true;
-  cancelAnimationFrame(animateBall);
-  cancelAnimationFrame(animateWhole);
+  window.removeEventListener("deviceorientation", handleOrientation);
 }
 
 animateBall();
