@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div>
+        <button id="start">Start</button>
+        <button id="reset">Reset</button>
+      </div>
+
+      <div class="distanceContainer">
+        <label for="distance">Distance </label>
+        <input type="range" id="distanceRange" min="15" max="200" value="100" />
+        <span id="distanceValue">100</span>
+      </div>
+
+      <canvas id="canvas" width="1000" height="500"></canvas>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
