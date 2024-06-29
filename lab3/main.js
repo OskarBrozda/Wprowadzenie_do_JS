@@ -83,8 +83,6 @@ startStop.addEventListener("click", () => {
 });
 
 function playTracks() {
-  if (!isPlaying) return;
-
   const checkedTracks = tracks.querySelectorAll(
     'input[type="checkbox"]:checked'
   );

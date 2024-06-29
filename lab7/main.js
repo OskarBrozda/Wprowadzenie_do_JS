@@ -12,8 +12,8 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 
 function createBall() {
-  let ballX = Math.random() * (canvasWidth - ballSize * 2);
-  let ballY = Math.random() * (canvasHeight - ballSize * 2);
+  let ballX = Math.random() * (canvasWidth - ballSize);
+  let ballY = Math.random() * (canvasHeight - ballSize);
   let ballDirectionX = Math.random() * 2 - 1;
   let ballDirectionY = Math.random() * 2 - 1;
 
@@ -54,7 +54,7 @@ function createBall() {
 
     ctx.beginPath();
     ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2, true);
-    ctx.fillStyle = "orange";
+    ctx.fillStyle = "red";
     ctx.fill();
 
     ball.ballX = ballX;

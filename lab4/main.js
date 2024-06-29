@@ -240,12 +240,6 @@ function displayNote(
 function editNote(id) {
   const notesLocalStorage = getNotesFromStorage();
   const noteToEdit = notesLocalStorage.find((note) => note.id === id);
-
-  if (!noteToEdit) {
-    console.error("Notatka nie znaleziona!");
-    return;
-  }
-
   editingNoteId = id;
 
   showNoteForm(
