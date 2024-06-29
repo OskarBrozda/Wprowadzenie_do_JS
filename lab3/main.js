@@ -1,4 +1,3 @@
-//sounds
 const keySounds = {
   a: "sounds/boom.wav",
   s: "sounds/clap.wav",
@@ -11,7 +10,6 @@ const keySounds = {
   l: "sounds/tom.wav",
 };
 
-//query selectors
 const startStop = document.querySelector(".startStop");
 const addTrack = document.querySelector(".addTrack");
 const removeTracks = document.querySelector(".removeTracks");
@@ -25,7 +23,6 @@ let metronomInterval;
 let isMetronomOn = false;
 let durationTimeouts = [];
 
-//add tracks
 addTrack.addEventListener("click", () => {
   const trackNumber = document.createElement("div");
   trackNumber.classList.add(`track${trackCounter}`);
@@ -54,7 +51,6 @@ addTrack.addEventListener("click", () => {
   followNewPath();
 });
 
-//remove tracks
 removeTracks.addEventListener("click", () => {
   const checkedTracks = tracks.querySelectorAll(
     'input[type="checkbox"]:checked'
@@ -64,7 +60,6 @@ removeTracks.addEventListener("click", () => {
   });
 });
 
-//metronom check
 metronomCheck.addEventListener("click", () => {
   if (metronomCheck.checked) {
     isMetronomOn = true;
@@ -75,7 +70,6 @@ metronomCheck.addEventListener("click", () => {
   }
 });
 
-//start/stop button
 startStop.addEventListener("click", () => {
   if (!isPlaying) {
     isPlaying = true;
@@ -89,7 +83,7 @@ startStop.addEventListener("click", () => {
 });
 
 function playTracks() {
-  if (!isPlaying) return; // Ensure we stop immediately when isPlaying is false
+  if (!isPlaying) return;
 
   const checkedTracks = tracks.querySelectorAll(
     'input[type="checkbox"]:checked'
@@ -100,7 +94,7 @@ function playTracks() {
     x.forEach((e, index) => {
       durationTimeouts.push(
         setTimeout(() => {
-          if (!isPlaying) return; // Stop playing if isPlaying is false
+          if (!isPlaying) return;
           const audio = new Audio(keySounds[e.value]);
           audio.play();
         }, 350 * index)
@@ -109,9 +103,9 @@ function playTracks() {
   });
 
   if (loopCheck.checked && isPlaying) {
-    setTimeout(playTracks, 350 * 8); // Repeat all tracks every 8 steps
+    setTimeout(playTracks, 350 * 8);
   } else if (!loopCheck.checked) {
-    setTimeout(stopTracks, 350 * 8); // Stop after one cycle
+    setTimeout(stopTracks, 350 * 8);
   }
 }
 
@@ -123,7 +117,6 @@ function stopTracks() {
   startStop.textContent = "Start";
 }
 
-//metronom play
 function metronomPlay() {
   if (isMetronomOn) {
     metronomInterval = setInterval(() => {
@@ -132,7 +125,6 @@ function metronomPlay() {
   }
 }
 
-//record track
 function followNewPath() {
   const recordTracks = document.querySelectorAll(".recordBtn");
   recordTracks.forEach((recordTrack) => {
@@ -158,4 +150,5 @@ function followNewPath() {
     });
   });
 }
+
 followNewPath();

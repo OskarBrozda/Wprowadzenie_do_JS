@@ -3,6 +3,7 @@ button {
   background-color: #418b43;
   border: none;
   font-family: serif;
+  border-radius: 15px;
   color: white;
   padding: 10px 20px;
   text-align: center;
