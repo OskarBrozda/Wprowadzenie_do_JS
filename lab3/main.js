@@ -88,22 +88,45 @@ function playTracks() {
   );
 
   checkedTracks.forEach((track) => {
-    const x = track.parentElement.querySelectorAll(".track input");
-    x.forEach((e, index) => {
+    const inputs = track.parentElement.querySelectorAll(".track input");
+    let previousTime = 0;
+    inputs.forEach((input, index) => {
+      const delay = index === 0 ? 0 : parseInt(input.dataset.time);
       durationTimeouts.push(
         setTimeout(() => {
           if (!isPlaying) return;
-          const audio = new Audio(keySounds[e.value]);
+          const audio = new Audio(keySounds[input.value]);
           audio.play();
-        }, 350 * index)
+        }, previousTime + delay)
       );
+      previousTime += delay;
     });
   });
 
   if (loopCheck.checked && isPlaying) {
-    setTimeout(playTracks, 350 * 8);
+    const maxDelay = Array.from(checkedTracks).reduce((max, track) => {
+      const trackInputs = track.parentElement.querySelectorAll(".track input");
+      return Math.max(
+        max,
+        Array.from(trackInputs).reduce(
+          (sum, input) => sum + parseInt(input.dataset.time),
+          0
+        )
+      );
+    }, 0);
+    setTimeout(playTracks, maxDelay);
   } else if (!loopCheck.checked) {
-    setTimeout(stopTracks, 350 * 8);
+    const maxDelay = Array.from(checkedTracks).reduce((max, track) => {
+      const trackInputs = track.parentElement.querySelectorAll(".track input");
+      return Math.max(
+        max,
+        Array.from(trackInputs).reduce(
+          (sum, input) => sum + parseInt(input.dataset.time),
+          0
+        )
+      );
+    }, 0);
+    setTimeout(stopTracks, maxDelay);
   }
 }
 
@@ -132,6 +155,7 @@ function followNewPath() {
         .querySelectorAll("input");
 
       trackInputs[0].focus();
+      let lastTime = Date.now();
 
       trackInputs.forEach((input, index) => {
         input.addEventListener("input", () => {
@@ -139,6 +163,9 @@ function followNewPath() {
           if (keySounds.hasOwnProperty(letter)) {
             const audio = new Audio(keySounds[letter]);
             audio.play();
+            const currentTime = Date.now();
+            input.dataset.time = currentTime - lastTime;
+            lastTime = currentTime;
           }
           if (index < trackInputs.length - 1 && input.value.length === 1) {
             trackInputs[index + 1].focus();
