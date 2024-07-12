@@ -16,7 +16,7 @@ let mouseX = 0;
 let mouseY = 0;
 let isMousePressed = false;
 
-function createBall() {
+function createBall(id) {
   let ballX = Math.random() * (canvasWidth - ballSize);
   let ballY = Math.random() * (canvasHeight - ballSize);
   let ballDirectionX = Math.random() * 2 - 1;
@@ -78,12 +78,12 @@ function createBall() {
     ball.ballY = ballY;
   }
 
-  return { render, distance, ballX, ballY };
+  return { id, render, distance, ballX, ballY };
 }
 
 function createBalls() {
   for (let i = 0; i < noOfBalls; i++) {
-    const newBall = createBall();
+    const newBall = createBall(i);
     balls.push(newBall);
   }
 }
@@ -112,16 +112,17 @@ canvas.addEventListener("click", function (evt) {
   const clickX = evt.clientX - rect.left;
   const clickY = evt.clientY - rect.top;
 
-  balls.forEach((ball, index) => {
+  for (let i = 0; i < balls.length; i++) {
+    const ball = balls[i];
     const dist = Math.sqrt(
       Math.pow(clickX - ball.ballX, 2) + Math.pow(clickY - ball.ballY, 2)
     );
     if (dist < ballSize) {
-      balls.splice(index, 1);
-      createBall();
-      createBall();
+      balls.splice(i, 1);
+      balls.push(createBall(balls.length), createBall(balls.length + 1));
+      break;
     }
-  });
+  }
 });
 
 createBalls();
