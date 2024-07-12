@@ -1,5 +1,6 @@
 let distance = 100;
 let gameState = "stopped";
+let force = 5;
 
 const ballSize = 5;
 const noOfBalls = 100;
@@ -10,6 +11,10 @@ const canvasHeight = 500;
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
+
+let mouseX = 0;
+let mouseY = 0;
+let isMousePressed = false;
 
 function createBall() {
   let ballX = Math.random() * (canvasWidth - ballSize);
@@ -28,14 +33,25 @@ function createBall() {
     balls.forEach((ballToConnect) => {
       if (calcDistance(ballToConnect) < distance) {
         ctx.beginPath();
-
         ctx.moveTo(ballX, ballY);
         ctx.lineTo(ballToConnect.ballX, ballToConnect.ballY);
-
         ctx.strokeStyle = "black";
         ctx.stroke();
       }
     });
+  }
+
+  function applyMouseForce() {
+    if (isMousePressed) {
+      const distToMouse = Math.sqrt(
+        Math.pow(mouseX - ballX, 2) + Math.pow(mouseY - ballY, 2)
+      );
+      if (distToMouse < distance) {
+        const angle = Math.atan2(mouseY - ballY, mouseX - ballX);
+        ballDirectionX += (Math.cos(angle) * force) / distToMouse;
+        ballDirectionY += (Math.sin(angle) * force) / distToMouse;
+      }
+    }
   }
 
   function render(ctx, ball) {
@@ -50,6 +66,7 @@ function createBall() {
       ballDirectionY *= -1;
     }
 
+    applyMouseForce();
     drawConnections();
 
     ctx.beginPath();
@@ -67,7 +84,6 @@ function createBall() {
 function createBalls() {
   for (let i = 0; i < noOfBalls; i++) {
     const newBall = createBall();
-
     balls.push(newBall);
   }
 }
@@ -81,12 +97,44 @@ function drawBalls() {
   }
 }
 
+function getMousePos(evt) {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = evt.clientX - rect.left;
+  mouseY = evt.clientY - rect.top;
+}
+
+canvas.addEventListener("mousemove", getMousePos);
+canvas.addEventListener("mousedown", () => (isMousePressed = true));
+canvas.addEventListener("mouseup", () => (isMousePressed = false));
+
+canvas.addEventListener("click", function (evt) {
+  const rect = canvas.getBoundingClientRect();
+  const clickX = evt.clientX - rect.left;
+  const clickY = evt.clientY - rect.top;
+
+  balls.forEach((ball, index) => {
+    const dist = Math.sqrt(
+      Math.pow(clickX - ball.ballX, 2) + Math.pow(clickY - ball.ballY, 2)
+    );
+    if (dist < ballSize) {
+      balls.splice(index, 1);
+      createBall();
+      createBall();
+    }
+  });
+});
+
 createBalls();
 drawBalls();
 
 document.querySelector("#distanceRange").addEventListener("input", function () {
   distance = this.value;
   document.querySelector("#distanceValue").textContent = distance;
+});
+
+document.querySelector("#forceRange").addEventListener("input", function () {
+  force = this.value;
+  document.querySelector("#forceValue").textContent = force;
 });
 
 const startButton = document.querySelector("#start");
